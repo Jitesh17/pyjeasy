@@ -16,8 +16,8 @@ setup(
     description="Useful python tools",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/Jitesh17/jpython",
-    py_modules=["jpython"],
+    url="https://github.com/Jitesh17/pyjeasy",
+    py_modules=["pyjeasy"],
     packages=packages,
     classifiers=[
         "Programming Language :: Python :: 3",
