@@ -1,0 +1,3 @@
+include *.sh
+include *.txt
+include LICENSE
