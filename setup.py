@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name= "pyjeasy",
-    version="0.0.2",
+    version="0.0.3",
     author="Jitesh Gosar",
     author_email="gosar95@gmail.com",
     description="Useful python tools",
@@ -28,6 +28,7 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
+        'printj'
     ],
     python_requires='>=3.6',
 )
