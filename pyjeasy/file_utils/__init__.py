@@ -1,2 +1,2 @@
-from .file_utils import *
-from .path_utils import *
+from .file_func import *
+from .path_func import *

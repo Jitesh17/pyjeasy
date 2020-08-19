@@ -28,7 +28,13 @@ setup(
         "Operating System :: OS Independent",
     ],
     install_requires=[
-        'printj'
+        'printj',
+        'opencv-python',
+        'numpy',
+        'matplotlib',
+        'pandas',
+        # 'math',
+        
     ],
     python_requires='>=3.6',
 )
