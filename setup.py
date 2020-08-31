@@ -9,7 +9,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(
-    name= "pyjeasy",
+    name="pyjeasy",
     version="0.0.3",
     author="Jitesh Gosar",
     author_email="gosar95@gmail.com",
@@ -34,7 +34,7 @@ setup(
         'matplotlib',
         'pandas',
         # 'math',
-        
+
     ],
     python_requires='>=3.6',
 )

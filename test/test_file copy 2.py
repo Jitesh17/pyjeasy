@@ -1,78 +1,89 @@
 import os, sys
-
+import itertools
 import numpy as np
 import pandas as pd
 import statistics #import mode
 import printj
+from tqdm import tqdm
 from collections import Counter 
   
   
-def new_pattern(n, l, result: bool):
+def new_pattern(n, l, result: bool, verbose: bool=True):
     if len(l) > 9:
         # print(l)
         list_all = [li for (li, x) in l]
         # list5 = list_all[-5:]
         list5 = []
         list5.append(list_all[0])
-        list5.append(list_all[1])
-        list5.append(list_all[2])
+        # list5.append(list_all[1])
+        # list5.append(list_all[2])
         # # list5.append(list_all[3])
         # list5.append(list_all[4])
         # # list5.append(list_all[5])
-        # # list5.append(list_all[6])
-        # list5.append(list_all[7])
+        # list5.append(list_all[6])
+        list5.append(list_all[7])
         list5.append(list_all[8])
         list5.append(list_all[9])
         if n in list5:
-            printj.green('new_pattern: Win')
+            if verbose:
+                printj.green('new_pattern: Win')
             return True
         else:
-            printj.red('new_pattern: Lose')
+            if verbose:
+                printj.red('new_pattern: Lose')
             return False
     else:
         return False  
     
-def is_n_in_last_5(n, l):
-    if len(l) > 9:
+def is_n_in_last_5(n, l, verbose: bool=True):
+    if len(l) > 6:
         # print(l)
         list_all = [li for (li, x) in l]
         list5 = list_all[-5:]
         if n in list5:
-            printj.green('     Least Frequent')
+            if verbose:
+                printj.green('     Least Frequent')
             return True
         else:
-            printj.red('     Most Frequent')
+            if verbose:
+                printj.red('     Most Frequent')
             return False
     else:
         return False
     
-def is_in_fixed_numbres(n, l):
+def is_in_fixed_numbres(n, l, verbose: bool=True):
     # if len(l) > 9:
     # print(l)
     # list_all = [li for (li, x) in l]
     # list5 = list_all[-5:]
     list5 = l
     if n in list5:
-        printj.green('Win')
+        if verbose:
+            printj.green('Win')
         return True
     else:
-        printj.red('Lose')
+        if verbose:
+            printj.red('Lose')
         return False
   
-def is_even(n):
+def is_even(n, verbose: bool=True):
     if n%2 == 0:
-        printj.green('is_even')
+        if verbose:
+            printj.green('is_even')
         return True
     else:
-        printj.red('is_odd')
+        if verbose:
+            printj.red('is_odd')
         return False
   
-def is_big(n):
+def is_big(n, verbose: bool=True):
     if n>4:
-        printj.green('is_big')
+        if verbose:
+            printj.green('is_big')
         return True
     else:
-        printj.red('is_small')
+        if verbose:
+            printj.red('is_small')
         return False
     
 def frequency(input): 
@@ -99,6 +110,35 @@ def frequency(input):
     # return c.most_common()[1][0]
     return c.most_common()
         
+    
+def frequency_last_n_turns(input, last_n: int=20): 
+  
+    # Convert given list into dictionary 
+    # it's output will be like {'ccc':1,'aaa':3,'bbb':2} 
+    # dict = Counter(input) 
+  
+    # # Get the list of all values and sort it in ascending order 
+    # value = sorted(dict.values(), reverse=True) 
+  
+    # # Pick second largest element 
+    # secondLarge = value[1] 
+  
+    # # Traverse dictionary and print key whose 
+    # # value is equal to second large element 
+    # for (key, val) in dict.iteritems(): 
+    #     if val == secondLarge: 
+    #         print( key )
+    #         return key
+    if len(input)>last_n:
+        c = Counter(input[-last_n:])
+        return c.most_common()
+    else:
+        return [(0,0)]
+    # print(c.most_common()[1][0])
+    # print(c.most_common())
+    # return c.most_common()[1][0]
+    # return c.most_common()
+        
         
 def find_max_mode(list1):
     list_table = statistics._counts(list1)
@@ -119,7 +159,7 @@ def count_consecutive(test_list):
     c_list = []
     c_dict = dict()
     last_e = False
-    count = 0
+    count = 1
     fort = 0
     for i, e in enumerate(test_list):
         if last_e == e:
@@ -129,9 +169,65 @@ def count_consecutive(test_list):
             fort += 1
             # if fort%
             c_dict[fort] = count
-            count = 0
+            count = 1
         last_e = e
     return c_list, c_dict
+
+
+def possible5():
+    digits = np.arange(10)
+    possible5=[]
+    for L in range(0, len(digits)+1):
+        for subset in itertools.combinations(digits, L):
+            # print(subset) 
+            if len(subset) == 5:
+                possible5.append(subset)
+                # print(subset)      
+    return possible5
+
+
+def choose5(list_target_num):
+    df = pd.DataFrame(data=[],
+                    #   columns = ['no', 
+                    #                 #  'time',
+                    #                 'n_TenThousands', 
+                    #                 'n_Thousands', 'n_Hundreds',
+                    #                 'n_Tens',
+                    #                 'n_Ones', 
+                    #                 ]
+                      )
+    row = dict()
+    all_possible_combos = possible5()
+    max_val = -1
+    for numbers in tqdm(all_possible_combos):
+        # row = dict()
+        # printj.yellow(numbers)
+        result_list = []
+        for target_num in list_target_num:
+            # printj.yellow(numbers)
+            result = is_in_fixed_numbres(target_num, list(numbers), verbose=False)
+            result_list.append(result)
+            # printj.red(result)
+        count_consecutive_list, c_dict = count_consecutive(result_list)
+        # row[str(numbers)] = max(count_consecutive_list[1:])
+        row[str(numbers)] = count_consecutive_list[-1]
+        if max_val < row[str(numbers)]:
+            max_val = row[str(numbers)]
+            max_number = numbers
+    df = df.append(pd.DataFrame(row, index =['max(count_consecutive_list)']) )
+    printj.yellow(df.T)
+    printj.purple(max_number)
+    # filter_col = [col for col in df if df[col]['max(count_consecutive_list)']==max_val]
+    for col in df:
+        if df[col]['max(count_consecutive_list)']==max_val:
+            print(col)
+    # printj.purple(filter_col)
+    printj.purple(max_val)
+    # printj.purple(max(row))
+    # (max(count_consecutive_list[1:])
+    # return possible5
+    
+    
 
 f = open("/home/jitesh/JG/my_projects/pyjeasy/test/data.txt", "r")
 # print(f.read())
@@ -195,25 +291,35 @@ for num in reversed_df["n_TenThousands"]:
         count_1 = 0
     gap_1_list.append(count_1)
     last_num = num
-    printj.yellow(num)
-    result = is_n_in_last_5(num, frequency(n_TenThousands_list))
-    result = is_in_fixed_numbres(num, [1,4,8,9,3])
-    result = new_pattern(num, frequency(n_TenThousands_list), result)
+    # printj.yellow(num)
+    # result = is_n_in_last_5(num, frequency(n_TenThousands_list))
+    # printj.yellow(frequency_last_n_turns(n_TenThousands_list, 20))
+    # result = is_n_in_last_5(num, frequency_last_n_turns(n_TenThousands_list, 40))
+    # result = is_in_fixed_numbres(num, [1,4,8,9,3])
+    # result = new_pattern(num, frequency(n_TenThousands_list), result)
+    # result = is_even(num)
+    # result = is_big(num)
     test_list.append(result)
-    is_even(num)
-    is_big(num)
     n_TenThousands_list.append(num)
-    printj.cyan(frequency(n_TenThousands_list))
+    # printj.cyan.on_white(frequency(n_TenThousands_list))
+    # choose5(n_TenThousands_list)
     # printj.yellow(num)
     # printj.green(row["n_TenThousands"])
-count_consecutive_list, c_dict = count_consecutive(test_list)
-printj.green(count_consecutive_list)
-printj.green(c_dict)
-printj.green(f'max: {max(count_consecutive_list[1:])}')
-for i, d in enumerate(count_consecutive_list):
-    if i%2==0 and d >4:
+# choose5(n_TenThousands_list)
+# count_consecutive_list, c_dict = count_consecutive(test_list)
+# # printj.green(count_consecutive_list)
+# # printj.green(c_dict)
+# printj.yellow(f'max: {max(count_consecutive_list[1:])}')
+# limit = 3
+# for i, d in enumerate(count_consecutive_list):
+#     if i%2==1 and d >limit:
         
-        printj.red(d)
+#         printj.red(d)
+#     if i%2==0 and d >limit:
+        
+#         printj.green(d)
+# # printj.green(possible5())
+choose5(n_TenThousands_list)
 # printj.green(df)
 # printj.purple(df["n_TenThousands"])
 # # lst = row["n_TenThousands"]

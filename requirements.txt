@@ -1,0 +1,16 @@
+printj~=0.0.2
+pip~=20.2.2
+cryptography~=2.1.4
+keyring~=21.3.1
+requests~=2.24.0
+setuptools~=49.6.0
+six~=1.15.0
+certifi~=2020.6.20
+chardet~=3.0.4
+SecretStorage~=3.1.2
+Pillow~=7.2.0
+idna~=2.10
+urllib3~=1.25.10
+simplejson~=3.13.2
+opencv-python
+numpy~=1.19.1

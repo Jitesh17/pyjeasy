@@ -23,6 +23,12 @@ def find_path_matching_pattern(filepath_pattern: str) -> list:
 def get_filename(path: str) -> str:
     return path.split('/')[-1]
 
+def get_directory_name(path: str) -> str:
+    if '.' in path.split('/')[-1]:
+        return path.split('/')[-2]
+    else:
+        return path.split('/')[-1]
+
 def get_extension_from_filename(filename: str) -> str:
     return filename.split('.')[-1]
 
