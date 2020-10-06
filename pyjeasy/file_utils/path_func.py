@@ -35,9 +35,6 @@ def get_extension_from_filename(filename: str) -> str:
 def get_abs_path(rel_path: str) -> str:
     return os.path.abspath(rel_path)
 
-def get_all_filepaths_of_extension_recursively(dirpath: str, extension: str):
-    return [y for x in os.walk(dirpath) for y in glob.glob(os.path.join(x[0], f'*.{extension}'))]
-
 def make_pathlist(dir_path: str, filename_list: list):
     return ['{}/{}'.format(dir_path, filename) for filename in filename_list]
 

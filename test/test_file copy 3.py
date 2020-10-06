@@ -158,16 +158,16 @@ def find_max_mode(list1):
 def count_consecutive(test_list):
     c_list = []
     c_dict = dict()
-    last_e = False
+    last_e = None # any is ok
     count = 1
     fort = 0
+    test_list.append(None) # anything other than true or false is ok
     for i, e in enumerate(test_list):
         if last_e == e:
             count += 1
         else:
             c_list.append(count)
             fort += 1
-            # if fort%
             c_dict[fort] = count
             count = 1
         last_e = e
@@ -182,7 +182,8 @@ def possible5():
             # print(subset) 
             if len(subset) == 5:
                 possible5.append(subset)
-                # print(subset)      
+    print(possible5)      
+    print(subset)      
     return possible5
 
 
@@ -279,7 +280,9 @@ last_num = 11
 result = False
 n_TenThousands_list = []
 test_list = []
-type_list = ["even-odd"]
+type_list = ["big-small", "even-odd"]
+max_dict = dict()
+last_consi_dict = dict()
 test_list_dict = dict()
 count_consecutive_list_dict = dict()
 for _type in type_list:
@@ -297,31 +300,40 @@ for num in reversed_df["n_TenThousands"]:
         count_1 = 0
     gap_1_list.append(count_1)
     last_num = num
-    # printj.yellow(num)
+    printj.yellow(num)
     # result = is_n_in_last_5(num, frequency(n_TenThousands_list))
     # printj.yellow(frequency_last_n_turns(n_TenThousands_list, 20))
     # result = is_n_in_last_5(num, frequency_last_n_turns(n_TenThousands_list, 40))
     # result = is_in_fixed_numbres(num, [1,4,8,9,3])
     # result = new_pattern(num, frequency(n_TenThousands_list), result)
-    result = is_even(num)
     # result = is_big(num)
     # test_list.append(result)
-    test_list_dict["even-odd"].append(result)
-    n_TenThousands_list.append(num)
+    is_big_result = is_big(num)
+    test_list_dict["big-small"].append(is_big_result)
+    is_even_result = is_even(num)
+    test_list_dict["even-odd"].append(is_even_result)
+    
+    n_TenThousands_list.append(num)            ################## Impoertant ##################
     # printj.cyan.on_white(frequency(n_TenThousands_list))
     # choose5(n_TenThousands_list)
     # printj.yellow(num)
     # printj.green(row["n_TenThousands"])
-printj.yellow(test_list)
+# printj.yellow(test_list)
 printj.cyan(test_list_dict)
-printj.green(test_list_dict["even-odd"]==test_list)
+# printj.green(test_list_dict["even-odd"]==test_list)
 # choose5(n_TenThousands_list)
 
 for _type in type_list:
     count_consecutive_list, c_dict= count_consecutive(test_list_dict[_type])
     count_consecutive_list_dict[_type] = {"list": count_consecutive_list, "dict": c_dict}
+    max_dict[_type] = max(count_consecutive_list_dict[_type]["list"])
+    last_consi_dict[_type] = count_consecutive_list_dict[_type]["list"][-1]
 printj.green(count_consecutive_list_dict["even-odd"]["list"])
-printj.green(count_consecutive_list_dict["even-odd"]["dict"])
+# printj.green(count_consecutive_list_dict["even-odd"]["dict"])
+printj.yellow(f'max_dict: {max_dict}')
+printj.yellow(f'last_consi_dict: {last_consi_dict}')
+sorted_last_consi_dict = {k: v for k, v in sorted(last_consi_dict.items(), key=lambda item: item[1], reverse = True)}
+printj.yellow(f'sorted_last_consi_dict: {sorted_last_consi_dict}')
 # count_consecutive_list, c_dict = count_consecutive(test_list)
 # printj.green(count_consecutive_list)
 # printj.green(c_dict)
@@ -344,3 +356,4 @@ printj.green(count_consecutive_list_dict["even-odd"]["dict"])
 # # maxi = max(set(lst), key=lst.count)
 # printj.yellow(f'Most frequent = {find_max_mode(df["n_TenThousands"])}')
 # frequency(df["n_TenThousands"])
+possible5()

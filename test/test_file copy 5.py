@@ -1,4 +1,5 @@
-import os, sys
+import os
+from sys import exit as x
 import itertools
 import numpy as np
 import pandas as pd
@@ -49,6 +50,29 @@ def is_n_in_last_5(n, l, verbose: bool=True):
                 printj.red('     Most Frequent')
             return False
     else:
+        return False
+    
+def is_in_fixed_numbres_of_frequency(n, l, freq, verbose: bool=True):
+    if len(l) > 8:
+        list_all = [li for (li, x) in freq]
+        # frequency(l)
+        # if len(l) > 9:
+        # print(l)
+        # list_all = [li for (li, x) in l]
+        # list5 = list_all[-5:]
+        # list5 = l
+        list5 = [list_all[i] for i in l]
+        if n in list5:
+            if verbose:
+                printj.green('Win')
+            return True
+        else:
+            if verbose:
+                printj.red('Lose')
+            return False
+    else:
+        if verbose:
+            printj.red('Lose')
         return False
     
 def is_in_fixed_numbres(n, l, verbose: bool=True):
@@ -155,19 +179,22 @@ def find_max_mode(list1):
         return new_list
     # return max_mode
 
+def top_n_dict(full_dict, n):
+    return {k: full_dict[k] for k in list(full_dict)[:n]}
+
 def count_consecutive(test_list):
     c_list = []
     c_dict = dict()
-    last_e = False
+    last_e = None # any is ok
     count = 1
     fort = 0
+    test_list.append(None) # anything other than true or false is ok
     for i, e in enumerate(test_list):
         if last_e == e:
             count += 1
         else:
             c_list.append(count)
             fort += 1
-            # if fort%
             c_dict[fort] = count
             count = 1
         last_e = e
@@ -182,7 +209,8 @@ def possible5():
             # print(subset) 
             if len(subset) == 5:
                 possible5.append(subset)
-                # print(subset)      
+    # print(possible5)      
+    # print(subset)      
     return possible5
 
 
@@ -278,13 +306,28 @@ count_1 = 0
 last_num = 11
 result = False
 n_TenThousands_list = []
+
+combo_test_list_dict = dict()
+combo_count_consecutive_list_dict = dict()
+combo_result = dict()
+all_possible_combos = possible5()
+for combo in all_possible_combos:
+    # printj.red(f'{str(combo)}')
+    combo_result[str(combo)]= []
+    combo_test_list_dict[str(combo)]= []
+    combo_count_consecutive_list_dict[str(combo)]= []
+# printj.red(f'{combo_count_consecutive_list_dict}')
+# x()
 test_list = []
-type_list = ["even-odd"]
-test_list_dict = dict()
-count_consecutive_list_dict = dict()
-for _type in type_list:
-    test_list_dict[_type]= []
-    count_consecutive_list_dict[_type]= []
+# type_list = ["big-small", "even-odd"]
+max_dict = dict()
+last_consi_dict = dict()
+last_consi_ratio_dict = dict()
+# test_list_dict = dict()
+# count_consecutive_list_dict = dict()
+# for _type in type_list:
+#     test_list_dict[_type]= []
+#     count_consecutive_list_dict[_type]= []
 for num in reversed_df["n_TenThousands"]:
     
     if num == 1:
@@ -298,34 +341,65 @@ for num in reversed_df["n_TenThousands"]:
     gap_1_list.append(count_1)
     last_num = num
     # printj.yellow(num)
+    # printj.yellow(frequency(n_TenThousands_list))
     # result = is_n_in_last_5(num, frequency(n_TenThousands_list))
     # printj.yellow(frequency_last_n_turns(n_TenThousands_list, 20))
     # result = is_n_in_last_5(num, frequency_last_n_turns(n_TenThousands_list, 40))
     # result = is_in_fixed_numbres(num, [1,4,8,9,3])
     # result = new_pattern(num, frequency(n_TenThousands_list), result)
-    result = is_even(num)
     # result = is_big(num)
     # test_list.append(result)
-    test_list_dict["even-odd"].append(result)
-    n_TenThousands_list.append(num)
+    for combo in all_possible_combos:
+        # combo_result[str(combo)] = is_in_fixed_numbres(num, list(combo), verbose=False)
+        combo_result[str(combo)] = is_in_fixed_numbres_of_frequency(num, list(combo), frequency(n_TenThousands_list[-10:]), verbose=False)
+        combo_test_list_dict[str(combo)].append(combo_result[str(combo)])
+    
+    # is_big_result = is_big(num)
+    # test_list_dict["big-small"].append(is_big_result)
+    # is_even_result = is_even(num)
+    # test_list_dict["even-odd"].append(is_even_result)
+    
+    n_TenThousands_list.append(num)            ################## Impoertant ##################
     # printj.cyan.on_white(frequency(n_TenThousands_list))
     # choose5(n_TenThousands_list)
     # printj.yellow(num)
     # printj.green(row["n_TenThousands"])
-printj.yellow(test_list)
-printj.cyan(test_list_dict)
-printj.green(test_list_dict["even-odd"]==test_list)
-# choose5(n_TenThousands_list)
+                                            # printj.yellow(test_list)
+                                            # printj.cyan(test_list_dict)
+                                            # printj.green(test_list_dict["even-odd"]==test_list)
+                                            # choose5(n_TenThousands_list)
 
-for _type in type_list:
-    count_consecutive_list, c_dict= count_consecutive(test_list_dict[_type])
-    count_consecutive_list_dict[_type] = {"list": count_consecutive_list, "dict": c_dict}
-printj.green(count_consecutive_list_dict["even-odd"]["list"])
-printj.green(count_consecutive_list_dict["even-odd"]["dict"])
-# count_consecutive_list, c_dict = count_consecutive(test_list)
-# printj.green(count_consecutive_list)
-# printj.green(c_dict)
-# printj.yellow(f'max: {max(count_consecutive_list[1:])}')
+    for combo in all_possible_combos:
+        count_consecutive_list, c_dict= count_consecutive(combo_test_list_dict[str(combo)])
+        combo_count_consecutive_list_dict[str(combo)] = {"list": count_consecutive_list, "dict": c_dict}
+        max_dict[str(combo)] = max(combo_count_consecutive_list_dict[str(combo)]["list"])
+        last_consi_dict[str(combo)] = combo_count_consecutive_list_dict[str(combo)]["list"][-1]
+        last_consi_ratio_dict[str(combo)] = round(last_consi_dict[str(combo)]/max_dict[str(combo)], 3)
+    # printj.green(count_consecutive_list_dict["even-odd"]["list"])
+    # printj.green(count_consecutive_list_dict["even-odd"]["dict"])
+    # printj.purple(f'max_dict: {max_dict}')
+    # printj.yellow(f'last_consi_dict: {last_consi_dict}')
+
+    sorted_last_consi_dict = {k: v for k, v in sorted(last_consi_dict.items(), key=lambda item: item[1], reverse = True)}
+    # printj.green(f'sorted_last_consi_dict: {top_n_dict(sorted_last_consi_dict, 20)}')
+
+    sorted_last_consi_ratio_dict = {k: v for k, v in sorted(last_consi_ratio_dict.items(), key=lambda item: item[1], reverse = True)}
+    # printj.yellow(f'sorted_last_consi_dict: {sorted_last_consi_ratio_dict}')
+    # sorted_last_consi_ratio_dict={k: sorted_last_consi_ratio_dict[k] for k in list(sorted_last_consi_ratio_dict)[:20]}
+    # printj.cyan(f'sorted_last_consi_dict: {top_n_dict(sorted_last_consi_ratio_dict, 20)}')
+    # printj.green(list(sorted_last_consi_ratio_dict.keys())[0])
+    # if str(num) in list(sorted_last_consi_ratio_dict.keys())[0]:
+    if str(num) in list(sorted_last_consi_dict.keys())[0]:
+        printj.green("win")
+        result = True
+    else:
+        printj.red("lose")
+        result = False
+    test_list.append(result)
+count_consecutive_list, c_dict = count_consecutive(test_list)
+printj.green(count_consecutive_list)
+printj.green(c_dict)
+printj.yellow(f'max: {max(count_consecutive_list)}')
 # limit = 3
 # for i, d in enumerate(count_consecutive_list):
 #     if i%2==1 and d >limit:
@@ -344,3 +418,4 @@ printj.green(count_consecutive_list_dict["even-odd"]["dict"])
 # # maxi = max(set(lst), key=lst.count)
 # printj.yellow(f'Most frequent = {find_max_mode(df["n_TenThousands"])}')
 # frequency(df["n_TenThousands"])
+# possible5()
