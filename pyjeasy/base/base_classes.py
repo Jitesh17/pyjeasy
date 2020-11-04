@@ -10,7 +10,7 @@ T = TypeVar('T')
 H = TypeVar('H')
 
 class BasicObject(Generic[T]):
-    @abstractmethod
+    # @abstractmethod
     def __str__(self) -> str:
         ''' To override '''
         raise NotImplementedError
@@ -293,7 +293,7 @@ class BasicLoadableHandler(BasicHandler[H, T]):
         return [item.to_dict() if not isinstance(item, tuple([dict, list, tuple, str, int, float, bool, type(None)])) else item for item in self]
 
     @classmethod
-    @abstractmethod
+    # @abstractmethod
     def from_dict_list(cls: H, dict_list: List[dict]) -> H:
         """
         To Override

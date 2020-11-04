@@ -161,8 +161,8 @@ class Polygon:
 #     def to_shapely(self) -> ShapelyPolygon:
 #         return ShapelyPolygon(self.to_list(demarcation=True))
 #
-#     def to_contour(self) -> np.ndarray:
-#         return np.array(self.to_int().to_list()).reshape(-1, 1, self.dimensionality)
+    def to_contour(self) -> np.ndarray:
+        return np.array(self.to_int().to_list()).reshape(-1, 1, self.dimensionality)
 #
 #     def to_bbox(self) -> BBox:
 #         points = np.array(self.to_list(demarcation=True))
@@ -491,8 +491,8 @@ class Polygon:
 #     def to_shapely(self) -> list:
 #         return [polygon.to_shapely() for polygon in self]
 #
-#     def to_contour(self) -> list:  # combine?
-#         return [polygon.to_contour() for polygon in self]
+    def to_contour(self) -> list:  # combine?
+        return [polygon.to_contour() for polygon in self]
 #
 #     def to_bbox(self) -> BBox:
 #         seg_bbox_list = [polygon.to_bbox() for polygon in self]
