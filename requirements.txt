@@ -1,6 +1,6 @@
 printj~=0.0.2
 pip~=20.2.2
-cryptography~=2.1.4
+cryptography~=3.2
 keyring~=21.3.1
 requests~=2.24.0
 setuptools~=49.6.0
