@@ -95,9 +95,9 @@ def get_all_filepaths_of_extension(dirpath: str, extension: Union[str, list], ex
     # return [y for x in os.walk(dirpath) for y in glob.glob(os.path.join(x[0], f'*.{extension}')) if not except_condition]
     files = [os.path.join(dirpath, fn) for fn in os.listdir(dirpath)]
     if not except_condition:
-        return [fn for fn in files if (os.path.splitext(fn)[1].lower() in extension) ]
+        return [fn for fn in files if (os.path.splitext(fn)[-1].lower() in extension) ]
     else:
-        return [fn for fn in files if not (os.path.splitext(fn)[1].lower() in extension) ]
+        return [fn for fn in files if not (os.path.splitext(fn)[-1].lower() in extension) ]
 
 def dir_contents_path_list_with_extension(dirpath: str, extension: str, except_condition: bool=False):
     return get_all_filepaths_of_extension(dirpath, extension, except_condition)
