@@ -13,14 +13,26 @@ from pyjeasy.image_utils.preview import show_image
 from typing import List, Tuple, Union
 
 
-def merge_colors(image_path, color_to: Union[int, list, tuple]=None, color_from: list=None, except_colors: List[list]=None, 
-                 show_preview: bool=False, write_image_path: str=None, verbose: bool=False):
+def merge_colors(
+    image_path, 
+    color_to: Union[int, list, tuple]=None, 
+    color_from: list=None, 
+    except_colors: List[list]=None,
+    except_bg_colors: bool=False, 
+    show_preview: bool=False, 
+    write_image_path: str=None, 
+    verbose: bool=False
+    ):
     """
     Change specific colors to a certain color in the given image.
     
     Input:
-    image_path, color_to, color_from: list=None, except_colors: list=None,
-    show_image: bool=False, write_image_path: src=None
+    image_path, color_to, 
+    color_from: list=None, 
+    except_colors: list=None,
+    except_bg_colors: bool=False, # Backgroung is decided by the color region with largest area
+    show_image: bool=False, 
+    write_image_path: src=None
     """
     
     change_to = None
@@ -42,9 +54,15 @@ def merge_colors(image_path, color_to: Union[int, list, tuple]=None, color_from:
     
     if verbose:
         printj.cyan(f"All {len(colors)} colors in the image: {colors}")
+        
+    if except_bg_colors:
+        except_colors = [list(colors[0][-1])]
+        if verbose:
+            printj.yellow(f"Background color is {except_colors}")
+        
     if except_colors:
         for i, c in colors:
-            if c not in except_colors:
+            if list(c) not in except_colors:
                 change_from_list.append(list(reversed(list(c))))
             
     img_cv = cv2.imread(image_path)
@@ -57,12 +75,14 @@ def merge_colors(image_path, color_to: Union[int, list, tuple]=None, color_from:
         printj.red(f"Input 'color_to' is empty")
     
     if show_preview:
-        show_image(img_cv)
+        quit = show_image(img_cv)
+        if quit:
+            return quit
     if write_image_path:
         cv2.imwrite(write_image_path, img_cv)
         if verbose:
             printj.yellow(f"Writing image: {write_image_path}")
-    return img_cv
+    return False
 
 def get_all_colors(img=None, img_path=None) -> List[Tuple[int, int]]: 
     """

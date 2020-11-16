@@ -156,9 +156,87 @@ def compare_images_4dir(
             make_dir_if_not_exists(compare_path)
             cv2.imwrite(f"{compare_path}/{filename1}", compare_images)
             
+def compare_images_2dir(
+    path1: str, path2: str, 
+    # path3: str, path4: str, 
+    compare_path: str, 
+    show_preview: bool=False, 
+    create_images: bool=False, 
+    create_video: bool=False,
+    n: str=None, 
+    t1: str=None, 
+    t2: str=None, 
+    # t3: str=None, 
+    # t4: str=None, 
+    iterations: int=None,
+    bbox_thresh: float=None,
+    concate_type: str="h"):
+    file_list_compare_list = [None]
+    for path in [path1, path2]:
+        file_list_compare_list.append(get_all_filepaths_of_extension(
+            dirpath=path, extension=[".jpg", ".jpeg", ".png"]))
+        
+    images = []
+           
+    for i, (file1_path, file2_path) in tqdm(enumerate(
+        zip(file_list_compare_list[1], file_list_compare_list[2])), 
+        desc=f'Comparing images', total=len(file_list_compare_list[1]),
+        colour= '#66cc66'):
+        filename1 = file1_path.split('/')[-1]
+        filename2 = file2_path.split('/')[-1]
+        assert filename1 == filename2
+        images1 = cv2.imread(file1_path)
+        images2 = cv2.imread(file2_path)
+        # compare_images1 = cv2.hconcat([images1, images2])
+        # compare_images2 = cv2.hconcat([images3, images4])
+        if concate_type =="h":
+            compare_images = cv2.hconcat([images1, images2])
+            compare_images = cv2.resize(compare_images, (1920, 840)) 
+            compare_images = cv2.copyMakeBorder( compare_images, top=50, bottom=100, left=0, right=0, borderType=0)
+            compare_images = write_text(compare_images, f'{filename1}', (10, 950))  #, (100, 250, 250))
+            if t1:
+                compare_images = write_text(compare_images, t1, (10, 40), (50, 102, 250))
+            if t2:
+                compare_images = write_text(compare_images, t2, (980, 40), (155, 250, 155))
+            if bbox_thresh:
+                compare_images = write_text(compare_images, f'bbox_thresh = {bbox_thresh}', (1600, 980))
+            if iterations:
+                compare_images = write_text(compare_images, f' {iterations}k iterations ', (1600, 950))
+            
+            compare_images = cv2.line(compare_images, (960, 0), (960, 890), (255, 222, 110), thickness=1)
+            
+
+        elif concate_type =="v":
+            compare_images = cv2.vconcat([compare_images1, compare_images2])
+            compare_images = cv2.resize(compare_images, (1920, 840)) 
+            compare_images = cv2.copyMakeBorder( compare_images, top=50, bottom=100, left=0, right=0, borderType=0)
+            compare_images = write_text(compare_images, f'{filename1}', (10, 950))  #, (100, 250, 250))
+            if t1:
+                compare_images = write_text(compare_images, t1, (10, 40), (50, 102, 250))
+            if t2:
+                compare_images = write_text(compare_images, t2, (990, 40), (155, 250, 155))
+            if bbox_thresh:
+                compare_images = write_text(compare_images, f'bbox_thresh = {bbox_thresh}', (1600, 980))
+            if iterations:
+                compare_images = write_text(compare_images, f' {iterations}k iterations ', (1600, 950))
+        else:
+            printj.red(f'concate_type = {concate_type} is not implemented yet.\n Valid options for concate_type are: "hh" and "hv"')
+            raise NotImplementedError
+            
+        images.append(compare_images)
+        #Show image
+        if show_preview==True:
+            quit_flag = show_image(compare_images, window_name='compare images')
+            if quit_flag:
+                cv2.destroyAllWindows()
+                break
+        if create_images==True:
+            make_dir_if_not_exists(compare_path)
+            cv2.imwrite(f"{compare_path}/{filename1}", compare_images)
+            
             
     
-def compare_images_2dir(path1, path2, compare_path, show_preview=False, create_images=False, create_video=False, n=None):
+def compare_images_2dir0(path1, path2, compare_path, show_preview=False, create_images=False, create_video=False, n=None):
     file_list1_compare = os.listdir(path1)
     file_list2_compare = os.listdir(path2)
     images = []
