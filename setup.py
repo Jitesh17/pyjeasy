@@ -10,7 +10,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name="pyjeasy",
-    version="0.0.4",
+    version="0.1.0",
     author="Jitesh Gosar",
     author_email="gosar95@gmail.com",
     description="Useful python tools",
