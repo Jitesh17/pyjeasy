@@ -15,7 +15,7 @@ import sys
 from distutils.dir_util import copy_tree
 from shutil import copyfile, rmtree
 import glob
-from typing import Union
+from typing import Union, List
 import printj
 
 """  Check """
@@ -91,7 +91,7 @@ def dir_contents_path_list(dir_path: str) -> list:
 def get_all_filenames_of_extension(dirpath: str, extension: Union[str, list], except_condition: bool=False):
     return [get_filename_from_path(y) for x in os.walk(dirpath) for y in glob.glob(os.path.join(x[0], f'*.{extension}')) if not except_condition]
 
-def get_all_filepaths_of_extension(dirpath: str, extension: Union[str, list], except_condition: bool=False):
+def get_all_filepaths_of_extension(dirpath: str, extension: List[str], except_condition: bool=False):
     # return [y for x in os.walk(dirpath) for y in glob.glob(os.path.join(x[0], f'*.{extension}')) if not except_condition]
     files = [os.path.join(dirpath, fn) for fn in os.listdir(dirpath)]
     if not except_condition:
@@ -99,7 +99,7 @@ def get_all_filepaths_of_extension(dirpath: str, extension: Union[str, list], ex
     else:
         return [fn for fn in files if not (os.path.splitext(fn)[-1].lower() in extension) ]
 
-def dir_contents_path_list_with_extension(dirpath: str, extension: str, except_condition: bool=False):
+def dir_contents_path_list_with_extension(dirpath: str, extension: List[str], except_condition: bool=False):
     return get_all_filepaths_of_extension(dirpath, extension, except_condition)
 
 

@@ -114,6 +114,15 @@ def check_type_from_list(item_list: list, valid_type_list: list, raise_error: bo
         if not result:
             return False
     return True
+
+def check_list_length(item, valid_list_length: int, raise_error: bool=True):
+    if len(item) is not valid_list_length:
+        printj.red(f"Invalid list length: {len(item)}")
+        printj.red(f"Valid list length: {valid_list_length}")
+        if raise_error:
+            raise TypeError
+        return False
+    return True
             
 def isOverlapping1D(box1, box2) -> bool:
     """

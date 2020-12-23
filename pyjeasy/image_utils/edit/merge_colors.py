@@ -37,6 +37,9 @@ def merge_colors(
     
     change_to = None
     colors = get_all_colors(img_path=image_path)
+    all_color_list = []
+    for i, c in colors:
+        all_color_list.append(list(list(c)))
     if isinstance(color_to, int):
         change_to = id_to_color(color_to)
     elif isinstance(color_to, tuple):
@@ -44,7 +47,7 @@ def merge_colors(
     elif isinstance(color_to, list):
         change_to = color_to
     elif color_to == None:
-        printj.cyan(f"All {len(colors)} colors in the image: {colors}")
+        printj.cyan(f"All {len(colors)} colors in the image: {all_color_list}")
     else:
         raise TypeError
     
@@ -52,8 +55,9 @@ def merge_colors(
     if color_from:
         change_from_list = color_from
     
+    
     if verbose:
-        printj.cyan(f"All {len(colors)} colors in the image: {colors}")
+        printj.cyan(f"All {len(colors)} colors in the image: {all_color_list}")
         
     if except_bg_colors:
         except_colors = [list(colors[0][-1])]
