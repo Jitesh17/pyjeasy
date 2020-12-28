@@ -1,9 +1,10 @@
 import cv2
+import sys
 import numpy as np
 from typing import Union
 
 
-def show_image(img: np.ndarray, window_name: str = "Cv2 Image Viewer", window_width: Union[int, None] = None) -> bool:
+def show_image(img: np.ndarray, window_name: str = "Cv2 Image Viewer", window_width: Union[int, None] = None, sys_exit=None) -> bool:
     # Window Declaration
     if window_width is None:
         window_h, window_w = img.shape[:2]
@@ -22,6 +23,8 @@ def show_image(img: np.ndarray, window_name: str = "Cv2 Image Viewer", window_wi
             break
         elif key == ord('q'):
             quit_flag = True
+            if sys_exit:
+                sys.exit(sys_exit)
             break
     cv2.destroyAllWindows()
 
