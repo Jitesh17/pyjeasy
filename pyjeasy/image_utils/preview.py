@@ -4,7 +4,7 @@ import numpy as np
 from typing import Union
 
 
-def show_image(img: np.ndarray, window_name: str = "Cv2 Image Viewer", window_width: Union[int, None] = None, sys_exit=None) -> bool:
+def show_image(img: np.ndarray, window_name: str = "Cv2 Image Viewer", window_width: Union[int, None] = None, sys_exit=1) -> bool:
     # Window Declaration
     if window_width is None:
         window_h, window_w = img.shape[:2]

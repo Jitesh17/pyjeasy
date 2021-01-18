@@ -5,3 +5,5 @@ from .mask_lib import *
 from .compare_images import *
 from .concate import *
 from .preview import *
+
+img_extentions = [".jpg", ".jpeg", ".png"]
