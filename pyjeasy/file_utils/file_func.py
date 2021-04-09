@@ -89,9 +89,11 @@ def dir_contents_path_list(dir_path: str) -> list:
     return [os.path.join(dir_path, f) for f in os.listdir(dir_path)]
 
 def get_all_filenames_of_extension(dirpath: str, extension: Union[str, list], except_condition: bool=False):
+    """extension: ['.png', '.jpg']"""
     return [get_filename_from_path(y) for x in os.walk(dirpath) for y in glob.glob(os.path.join(x[0], f'*.{extension}')) if not except_condition]
 
 def get_all_filepaths_of_extension(dirpath: str, extension: List[str], except_condition: bool=False):
+    """extension: ['.png', '.jpg']"""
     # return [y for x in os.walk(dirpath) for y in glob.glob(os.path.join(x[0], f'*.{extension}')) if not except_condition]
     files = [os.path.join(dirpath, fn) for fn in os.listdir(dirpath)]
     if not except_condition:
@@ -100,6 +102,7 @@ def get_all_filepaths_of_extension(dirpath: str, extension: List[str], except_co
         return [fn for fn in files if not (os.path.splitext(fn)[-1].lower() in extension) ]
 
 def dir_contents_path_list_with_extension(dirpath: str, extension: List[str], except_condition: bool=False):
+    """extension: ['.png', '.jpg']"""
     return get_all_filepaths_of_extension(dirpath, extension, except_condition)
 
 

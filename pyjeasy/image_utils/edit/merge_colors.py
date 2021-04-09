@@ -88,7 +88,7 @@ def merge_colors(
             printj.yellow(f"Writing image: {write_image_path}")
     return False
 
-def get_all_colors(img=None, img_path=None) -> List[Tuple[int, int]]: 
+def get_all_colors(img_pil=None, img_path=None) -> List[Tuple[int, int]]: 
     """
     Get all colors in the image.
     

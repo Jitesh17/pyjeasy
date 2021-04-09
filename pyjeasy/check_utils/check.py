@@ -9,7 +9,7 @@ def check_path_exists(url: str, raise_error: bool=True) -> bool:
         return True
     else:
         if raise_error:
-            printj.red(f'Path not found./n{url}')
+            printj.red(f'Path not found.\n{url}')
             raise Exception
         else:
             return False
@@ -20,7 +20,7 @@ def check_file_exists(file_path: str, raise_error: bool=True) -> bool:
         return True
     else:
         if raise_error:
-            printj.red(f'File not found./n{file_path}')
+            printj.red(f'File not found.\n{file_path}')
             raise Exception
         else:
             return False
@@ -31,7 +31,7 @@ def check_dir_exists(dir_path: str, raise_error: bool=True) -> bool:
         return True
     else:
         if raise_error:
-            printj.red(f'Directory not found./n{dir_path}')
+            printj.red(f'Directory not found.\n{dir_path}')
             raise Exception
         else:
             return False
@@ -42,7 +42,7 @@ def check_link_exists(link_url: str, raise_error: bool=True) -> bool:
         return True
     else:
         if raise_error:
-            printj.red(f'Link not found./n{link_url}')
+            printj.red(f'Link not found.\n{link_url}')
             raise Exception
         else:
             return False
