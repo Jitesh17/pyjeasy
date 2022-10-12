@@ -1,5 +1,5 @@
-printj~=0.0.2
-pip~=20.2.2
+printj~=0.1.1
+pip~=22.2.2
 cryptography~=3.2
 keyring~=21.3.1
 requests~=2.24.0
@@ -13,5 +13,5 @@ idna~=2.10
 urllib3~=1.26.12
 simplejson~=3.13.2
 opencv-python
-numpy~=1.19.1
+numpy~=1.23.0
 tqdm
