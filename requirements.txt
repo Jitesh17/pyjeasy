@@ -8,9 +8,9 @@ six~=1.15.0
 certifi~=2020.6.20
 chardet~=3.0.4
 SecretStorage~=3.1.2
-Pillow~=7.2.0
+Pillow~=9.2.0
 idna~=2.10
-urllib3~=1.25.10
+urllib3~=1.26.12
 simplejson~=3.13.2
 opencv-python
 numpy~=1.19.1
